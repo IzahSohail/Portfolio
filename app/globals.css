@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 0, 0, 0;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: black;
+  color: white;
+  height: 100%;
+  width: 100%;
+}
+
+.gradient-bg {
+  background: radial-gradient(
+    circle at top right,
+    rgba(255, 62, 0, 0.7),
+    rgba(121, 40, 202, 0.7),
+    rgba(0, 112, 243, 0.7)
+  );
+  filter: blur(100px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
