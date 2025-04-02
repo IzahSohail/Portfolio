@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Inter } from 'next/font/google'
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Izah's Portfolio",
   description: "Computer Science Projects Portfolio",
-  generator: "v0.dev",
+  generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -22,4 +22,3 @@ export default function RootLayout({
     </html>
   )
 }
-

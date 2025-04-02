@@ -30,9 +30,16 @@ body {
   pointer-events: none;
 }
 
+/* Add smooth scrolling for touch devices */
+@media (hover: none) {
+  .smooth-scroll {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
-
