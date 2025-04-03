@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Twitter, Twitch, Youtube, Menu } from 'lucide-react'
+import { Menu, FileText, Mail, Github } from "lucide-react"
 import Link from "next/link"
 import TypewriterComponent from "@/components/typewriter"
 import ProjectCard from "@/components/project-card"
@@ -145,27 +145,27 @@ export default function Portfolio() {
 
     const handleTouchStart = (e: TouchEvent) => {
       if (selectedProject) return // Don't handle touch when modal is open
-      
+
       const touch = e.touches[0]
       const startX = touch.clientX
-      
+
       const handleTouchMove = (e: TouchEvent) => {
         const touch = e.touches[0]
         const deltaX = startX - touch.clientX
-        
+
         // Move projects based on touch movement
         const newPosition = Math.max(0, scrollPosition + deltaX * 1.5)
         const maxScroll = projects.length * (isMobile ? 300 : 400) - window.innerWidth + 100
         setScrollPosition(Math.min(newPosition, maxScroll))
       }
-      
+
       const handleTouchEnd = () => {
-        document.removeEventListener('touchmove', handleTouchMove)
-        document.removeEventListener('touchend', handleTouchEnd)
+        document.removeEventListener("touchmove", handleTouchMove)
+        document.removeEventListener("touchend", handleTouchEnd)
       }
-      
-      document.addEventListener('touchmove', handleTouchMove, { passive: true })
-      document.addEventListener('touchend', handleTouchEnd, { passive: true })
+
+      document.addEventListener("touchmove", handleTouchMove, { passive: true })
+      document.addEventListener("touchend", handleTouchEnd, { passive: true })
     }
 
     const container = containerRef.current
@@ -190,24 +190,35 @@ export default function Portfolio() {
         {/* Header with social icons and mobile menu button */}
         <div className="flex justify-between items-center p-4 md:p-6">
           {/* Mobile menu button - only visible on small screens */}
-          <button 
-            className="text-white md:hidden" 
-            onClick={() => setMobileMenuOpen(true)}
-            aria-label="Open menu"
-          >
+          <button className="text-white md:hidden" onClick={() => setMobileMenuOpen(true)} aria-label="Open menu">
             <Menu size={24} />
           </button>
-          
-          {/* Social icons - hidden on mobile, shown on larger screens */}
+
+          {/* Updated links - hidden on mobile, shown on larger screens */}
           <div className="hidden md:flex gap-4 ml-auto">
-            <Link href="#" className="text-white hover:text-gray-300 transition">
-              <Twitter size={24} />
+            <Link
+              href="/resume.pdf"
+              className="text-white hover:text-gray-300 transition"
+              download
+              aria-label="Download Resume"
+            >
+              <FileText size={24} />
             </Link>
-            <Link href="#" className="text-white hover:text-gray-300 transition">
-              <Twitch size={24} />
+            <Link
+              href="mailto:is2587@nyu.edu"
+              className="text-white hover:text-gray-300 transition"
+              aria-label="Email Me"
+            >
+              <Mail size={24} />
             </Link>
-            <Link href="#" className="text-white hover:text-gray-300 transition">
-              <Youtube size={24} />
+            <Link
+              href="https://github.com/yourusername"
+              className="text-white hover:text-gray-300 transition"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub Profile"
+            >
+              <Github size={24} />
             </Link>
           </div>
         </div>
@@ -217,18 +228,14 @@ export default function Portfolio() {
 
         <div className="flex-1 flex flex-col px-4 md:px-16">
           <div className="mt-8 md:mt-16">
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white">
-              HI, IM IZAH
-            </h1>
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white">HI, IM IZAH</h1>
             <div className="mt-2 md:mt-4 text-xl md:text-2xl text-white">
               I&apos;M A <TypewriterComponent />
             </div>
           </div>
 
           <div className="flex-1 flex flex-col justify-center mt-8 md:mt-0">
-            <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4">
-              PROJECTS
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4">PROJECTS</h2>
             <div className="w-full flex justify-center mb-4 md:mb-8">
               <div className="h-1 bg-orange-500 w-32 md:w-48"></div>
             </div>
@@ -249,7 +256,7 @@ export default function Portfolio() {
                 />
               ))}
             </div>
-            
+
             {/* Mobile scroll indicator */}
             <div className="flex justify-center mt-4 md:hidden">
               <p className="text-white/60 text-sm">Swipe to see more projects</p>
@@ -262,3 +269,4 @@ export default function Portfolio() {
     </div>
   )
 }
+
