@@ -21,9 +21,9 @@ body {
 .gradient-bg {
   background: radial-gradient(
     circle at top right,
-    rgba(255, 62, 0, 0.7),
-    rgba(121, 40, 202, 0.7),
-    rgba(0, 112, 243, 0.7)
+    rgba(111, 55, 36, 0.7),
+    rgba(20, 7, 32, 0.7),
+    rgba(35, 62, 93, 0.7)
   );
   filter: blur(100px);
   opacity: 0.6;

@@ -1,6 +1,8 @@
 "use client"
 
-import { ChevronLeft, ChevronRight, X } from 'lucide-react'
+import type React from "react"
+
+import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import { useMobile } from "@/hooks/use-mobile"
@@ -76,34 +78,37 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         }`}
         onClick={(e) => e.stopPropagation()}
       >
-        <button onClick={handleClose} className="absolute right-2 sm:right-4 top-2 sm:top-4 text-white hover:text-gray-300 z-10">
+        <button
+          onClick={handleClose}
+          className="absolute right-2 sm:right-4 top-2 sm:top-4 text-white hover:text-gray-300 z-10"
+        >
           <X size={isMobile ? 20 : 24} />
         </button>
 
         <h2 className="mb-2 sm:mb-4 text-xl sm:text-2xl font-bold text-white pr-6">{project.title}</h2>
 
         {/* Image Carousel */}
-        <div className="relative mb-3 sm:mb-6 h-[200px] sm:h-[300px] w-full">
+        <div className="relative mb-3 sm:mb-6 h-[250px] sm:h-[400px] w-full">
           <Image
             src={currentImage || "/placeholder.svg"}
             alt={`${project.title} - image ${currentImageIndex + 1}`}
             fill
-            className="rounded-md object-cover"
+            className="rounded-md object-contain bg-white/5"
             sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, 800px"
           />
-          
+
           {/* Navigation arrows - only show if there are multiple images */}
           {images.length > 1 && (
             <>
-              <button 
-                onClick={prevImage} 
+              <button
+                onClick={prevImage}
                 className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-1 sm:p-2 text-white hover:bg-black/70"
                 aria-label="Previous image"
               >
                 <ChevronLeft size={isMobile ? 20 : 24} />
               </button>
-              <button 
-                onClick={nextImage} 
+              <button
+                onClick={nextImage}
                 className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-1 sm:p-2 text-white hover:bg-black/70"
                 aria-label="Next image"
               >
@@ -111,7 +116,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               </button>
             </>
           )}
-          
+
           {/* Image indicator dots */}
           {images.length > 1 && (
             <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1">
@@ -144,7 +149,10 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             <h3 className="mb-1 sm:mb-2 text-base sm:text-lg font-semibold text-white">Technologies Used</h3>
             <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {project.technologies.map((tech, index) => (
-                <span key={index} className="rounded-full bg-orange-500/20 px-2 sm:px-3 py-0.5 sm:py-1 text-xs sm:text-sm text-orange-500">
+                <span
+                  key={index}
+                  className="rounded-full bg-orange-500/20 px-2 sm:px-3 py-0.5 sm:py-1 text-xs sm:text-sm text-orange-500"
+                >
                   {tech}
                 </span>
               ))}
@@ -168,3 +176,4 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
     </div>
   )
 }
+
