@@ -212,7 +212,7 @@ export default function Portfolio() {
               <Mail size={24} />
             </Link>
             <Link
-              href="https://github.com/yourusername"
+              href="https://github.com/IzahSohail"
               className="text-white hover:text-gray-300 transition"
               target="_blank"
               rel="noopener noreferrer"
