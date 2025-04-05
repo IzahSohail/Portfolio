@@ -20,7 +20,7 @@ export default function TypewriterComponent() {
         if (currentText.length === currentRole.length) {
           // Wait a bit before starting to delete
           setIsDeleting(true)
-          setTypingSpeed(100)
+          setTypingSpeed(200)
         }
       } else {
         setCurrentText(currentRole.substring(0, currentText.length - 1))
@@ -28,7 +28,7 @@ export default function TypewriterComponent() {
         if (currentText.length === 0) {
           setIsDeleting(false)
           setCurrentRoleIndex((currentRoleIndex + 1) % roles.length)
-          setTypingSpeed(150)
+          setTypingSpeed(200)
         }
       }
     }, typingSpeed)
