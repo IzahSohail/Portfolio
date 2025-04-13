@@ -81,6 +81,19 @@ export default function Portfolio() {
     },
     {
       id: 5,
+      title: "SchedYouLater",
+      image: "/SchedYouLater.png",
+      images: [
+        "/SchedYouLater.png",
+        "/SchedYouLater-detail1.jpg",
+      ],
+      description:
+        "SchedYouLater is a web-based application designed to help users find optimal times to schedule calls with their family or friends, taking time zone differences into account. The app allows users to view their own and their friends' schedules, find free time slots, and propose meeting times that work for both parties, automatically converting times to the correct time zone for each user.",
+      technologies: ["React.js", "Node.js", "TimeAPI.io", "PostgreSQL"],
+      link: "https://github.com/IzahSohail/SchedYouLater",
+    },
+    {
+      id: 6,
       title: "Spot AI",
       image: "/spot-ai.jpg",
       images: [
@@ -93,7 +106,7 @@ export default function Portfolio() {
       technologies: ["Flask", "PostgreSQL", "Socket.io", "OpenAI API"],
     },    
     {
-      id: 6,
+      id: 7,
       title: "PhotoShare",
       image: "/photoshare.jpg",
       images: [
@@ -105,7 +118,7 @@ export default function Portfolio() {
       link: "https://github.com/IzahSohail/instagram2.0",
     },
     {
-      id: 7,
+      id: 8,
       title: "Fever Dream",
       image: "/fever-dream.jpg",
       images: [
