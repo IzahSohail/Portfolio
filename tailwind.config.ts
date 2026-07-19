@@ -11,7 +11,17 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        heading: ["var(--font-poppins)", "Poppins", "sans-serif"],
+        body: ["var(--font-poppins)", "Poppins", "sans-serif"],
+        round: ["var(--font-quicksand)", "Quicksand", "sans-serif"],
+        hand: ["var(--font-delius)", "Delius", "cursive"],
+      },
       colors: {
+        ink: "#22549c",
+        heading: "#22549c",
+        hue: "#36b5c2",
+        paper: "#f5f4f4",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

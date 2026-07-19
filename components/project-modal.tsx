@@ -5,14 +5,13 @@ import type React from "react"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import { useMobile } from "@/hooks/use-mobile"
 
 interface ProjectModalProps {
   project: {
     id: number
     title: string
     image: string
-    images?: string[] // Array of image URLs
+    images?: string[]
     description?: string
     technologies?: string[]
     link?: string
@@ -23,135 +22,118 @@ interface ProjectModalProps {
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
   const [isVisible, setIsVisible] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const isMobile = useMobile()
 
   useEffect(() => {
     if (project) {
       setIsVisible(true)
-      setCurrentImageIndex(0) // Reset to first image when opening modal
-      // Prevent scrolling when modal is open
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "auto"
-    }
-
-    return () => {
-      document.body.style.overflow = "auto"
+      setCurrentImageIndex(0)
     }
   }, [project])
 
   const handleClose = () => {
     setIsVisible(false)
-    setTimeout(() => {
-      onClose()
-    }, 300) // Match transition duration
+    setTimeout(onClose, 300)
   }
 
   const nextImage = (e: React.MouseEvent) => {
     e.stopPropagation()
-    if (!project || !project.images) return
+    if (!project?.images) return
     setCurrentImageIndex((prev) => (prev + 1) % project.images!.length)
   }
 
   const prevImage = (e: React.MouseEvent) => {
     e.stopPropagation()
-    if (!project || !project.images) return
+    if (!project?.images) return
     setCurrentImageIndex((prev) => (prev - 1 + project.images!.length) % project.images!.length)
   }
 
   if (!project) return null
 
-  // Use project.images if available, otherwise create an array with just the main image
   const images = project.images || [project.image]
   const currentImage = images[currentImageIndex]
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-2 sm:p-4 transition-opacity duration-300 ${
+      className={`fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-ink/30 p-2 transition-opacity duration-300 sm:p-4 ${
         isVisible ? "opacity-100" : "opacity-0"
       }`}
       onClick={handleClose}
     >
       <div
-        className={`relative max-h-[95vh] w-full max-w-3xl overflow-auto rounded-lg border border-orange-500 bg-black p-3 sm:p-6 transition-all duration-300 ${
+        data-modal-scroll
+        className={`relative max-h-[92vh] w-full max-w-3xl overflow-y-auto overscroll-contain rounded-sm bg-white p-4 shadow-xl transition-all duration-300 sm:p-8 ${
           isVisible ? "scale-100" : "scale-95"
         }`}
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={handleClose}
-          className="absolute right-2 sm:right-4 top-2 sm:top-4 text-white hover:text-gray-300 z-10"
+          aria-label="Close"
+          className="absolute right-3 top-3 z-10 text-zinc-500 transition hover:text-ink sm:right-4 sm:top-4"
         >
-          <X size={isMobile ? 20 : 24} />
+          <X size={22} />
         </button>
 
-        <h2 className="mb-2 sm:mb-4 text-xl sm:text-2xl font-bold text-white pr-6">{project.title}</h2>
+        <h2 className="mb-3 pr-8 font-heading text-3xl font-extrabold italic text-heading sm:mb-5 sm:text-4xl">
+          {project.title}
+        </h2>
 
-        {/* Image Carousel */}
-        <div className="relative mb-3 sm:mb-6 h-[250px] sm:h-[400px] w-full">
+        <div className="relative mb-4 h-[250px] w-full sm:mb-6 sm:h-[400px]">
           <Image
             src={currentImage || "/placeholder.svg"}
             alt={`${project.title} - image ${currentImageIndex + 1}`}
             fill
-            className="rounded-md object-contain bg-white/5"
+            className="rounded-sm bg-white/60 object-contain"
             sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, 800px"
           />
 
-          {/* Navigation arrows - only show if there are multiple images */}
           {images.length > 1 && (
             <>
               <button
                 onClick={prevImage}
-                className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-1 sm:p-2 text-white hover:bg-black/70"
+                className="absolute left-1 top-1/2 -translate-y-1/2 rounded-full bg-ink/60 p-1.5 text-white transition hover:bg-ink sm:left-2 sm:p-2"
                 aria-label="Previous image"
               >
-                <ChevronLeft size={isMobile ? 20 : 24} />
+                <ChevronLeft size={20} />
               </button>
               <button
                 onClick={nextImage}
-                className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-1 sm:p-2 text-white hover:bg-black/70"
+                className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full bg-ink/60 p-1.5 text-white transition hover:bg-ink sm:right-2 sm:p-2"
                 aria-label="Next image"
               >
-                <ChevronRight size={isMobile ? 20 : 24} />
+                <ChevronRight size={20} />
               </button>
+              <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1.5">
+                {images.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setCurrentImageIndex(index)
+                    }}
+                    className={`h-2 w-2 rounded-full ${
+                      index === currentImageIndex ? "bg-ink" : "bg-ink/30"
+                    }`}
+                    aria-label={`Go to image ${index + 1}`}
+                  />
+                ))}
+              </div>
             </>
           )}
-
-          {/* Image indicator dots */}
-          {images.length > 1 && (
-            <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1">
-              {images.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setCurrentImageIndex(index)
-                  }}
-                  className={`h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full ${
-                    index === currentImageIndex ? "bg-orange-500" : "bg-white/50"
-                  }`}
-                  aria-label={`Go to image ${index + 1}`}
-                />
-              ))}
-            </div>
-          )}
         </div>
 
-        <div className="mb-3 sm:mb-6">
-          <p className="text-sm sm:text-base text-white">
-            {project.description ||
-              "This is a detailed description of the project. It explains the goals, challenges, and outcomes of the project. The description provides context about why the project was undertaken and what problems it solves."}
-          </p>
-        </div>
+        <p className="mb-4 font-body text-sm text-ink/80 sm:mb-6 sm:text-base">{project.description}</p>
 
         {project.technologies && (
-          <div className="mb-3 sm:mb-6">
-            <h3 className="mb-1 sm:mb-2 text-base sm:text-lg font-semibold text-white">Technologies Used</h3>
+          <div className="mb-4 sm:mb-6">
+            <h3 className="mb-2 font-heading text-lg font-semibold text-ink sm:text-xl">
+              Technologies Used
+            </h3>
             <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {project.technologies.map((tech, index) => (
                 <span
                   key={index}
-                  className="rounded-full bg-orange-500/20 px-2 sm:px-3 py-0.5 sm:py-1 text-xs sm:text-sm text-orange-500"
+                  className="rounded-full bg-ink/10 px-3 py-1 text-xs text-ink sm:text-sm"
                 >
                   {tech}
                 </span>
@@ -161,19 +143,16 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         )}
 
         {project.link && (
-          <div className="mt-3 sm:mt-4">
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block rounded-md bg-orange-500 px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base text-white transition-colors hover:bg-orange-600"
-            >
-              View Project
-            </a>
-          </div>
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block rounded-full bg-ink px-4 py-2 text-sm text-white transition hover:bg-heading sm:text-base"
+          >
+            View Project
+          </a>
         )}
       </div>
     </div>
   )
 }
-
