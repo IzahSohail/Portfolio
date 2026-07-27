@@ -1,17 +1,11 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Github, Linkedin } from "lucide-react"
 import ProjectCard from "@/components/project-card"
 import ProjectModal from "@/components/project-modal"
-import AboutModal from "@/components/about-modal"
+import SiteNav from "@/components/site-nav"
 import TechTicker from "@/components/tech-ticker"
 import Image from "next/image"
-
-const SOCIAL = {
-  github: "https://github.com/IzahSohail",
-  linkedin: "https://www.linkedin.com/in/izah-sohail-12087a194/",
-}
 
 interface Project {
   id: number
@@ -27,9 +21,38 @@ interface Project {
 const PROJECTS: Project[] = [
   {
     id: 1,
+    title: "Falcon Market",
+    tagline: "A student marketplace with seller tools and real-time analytics",
+    image: "/falcon-market-thumbnail.jpg",
+    images: ["/falcon-market-thumbnail.jpg"],
+    description:
+      "A full-stack multi-vendor marketplace built for students to buy, sell, and manage secondhand items. The platform supports secure Auth0-based login, role-based workflows for users, businesses, and admins, bulk CSV/JSON catalog uploads with validation, and a Kafka-powered analytics pipeline for tracking sales activity in real time. Designed to combine core e-commerce flows with scalable data processing and operational reporting.",
+    technologies: ["React", "Node.js", "Express", "PostgreSQL", "Kafka"],
+    link: "https://github.com/IzahSohail/Retail_App",
+  },
+  {
+    id: 2,
+    title: "Math Confidence",
+    tagline: "AI pre-algebra tutor that builds mastery",
+    image: "/math-confidence-thumbnail.jpg",
+    images: ["/math-confidence.jpg", "/math-confidence-detail1.jpg", "/math-confidence-detail2.jpg"],
+    description:
+      "An Interactive Pre-Algebra AI Textbook designed to enhance learners' confidence in mathematics. The platform features an AI tutor that guides users step-by-step through pre-algebra topics, automatically assessing mastery and promoting a growth mindset. Built with Next.js and TypeScript for the frontend, and Tailwind CSS for styling, the application ensures a responsive and user-friendly experience. The AI tutor functionality is powered by OpenAI Assistants, with Supabase for data and auth.",
+    technologies: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind",
+      "OpenAI Assistants",
+      "Supabase",
+    ],
+    link: "https://math-confidence.com",
+  },
+  {
+    id: 3,
     title: "Euro Votes",
-    tagline: "Political transparency",
-    image: "/project1.jpg",
+    tagline: "Political transparency through EU voting data",
+    image: "/Euro-votes-thumbnail.jpg",
     images: [
       "/project1.jpg",
       "/project1-detail1.jpg",
@@ -38,69 +61,35 @@ const PROJECTS: Project[] = [
       "/project1-detail4.jpg",
     ],
     description:
-      "An interactive data visualization tool that analyzes voting patterns in the European Parliament. The project scrapes legislative roll-call data and MEP information using BeautifulSoup, stores it in PostgreSQL, and presents visual trends via D3.js and Plotly. It enables users to explore alignments across countries, parties, and ideologies.",
-    technologies: ["Django", "PostgreSQL", "BeautifulSoup", "Plotly.js", "D3.js"],
+      "An interactive data visualization tool that analyzes voting patterns in the European Parliament. The project scrapes legislative roll-call data and MEP information using BeautifulSoup, stores it in PostgreSQL, and presents visual trends via Matplotlib, Plotly, and Pandas. It enables users to explore alignments across countries, parties, and ideologies.",
+    technologies: [
+      "Python",
+      "Django",
+      "PostgreSQL",
+      "JavaScript",
+      "Matplotlib",
+      "Plotly",
+      "Pandas",
+      "BeautifulSoup",
+    ],
     link: "https://github.com/IzahSohail/Eu-Parliament",
-  },
-  {
-    id: 2,
-    title: "Math Confidence",
-    tagline: "AI pre-algebra tutor",
-    image: "/math-confidence.jpg",
-    images: ["/math-confidence.jpg", "/math-confidence-detail1.jpg", "/math-confidence-detail2.jpg"],
-    description:
-      "An Interactive Pre-Algebra AI Textbook designed to enhance learners' confidence in mathematics. The platform features an AI tutor that guides users step-by-step through pre-algebra topics, automatically assessing mastery and promoting a growth mindset. Built with Next.js and TypeScript for the frontend, and Tailwind CSS for styling, the application ensures a responsive and user-friendly experience. The AI tutor functionality is powered by OpenAI's GPT-4, providing personalized and adaptive learning experiences.",
-    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "OpenAI GPT-4"],
-    link: "https://math-confidence.com",
-  },
-  {
-    id: 3,
-    title: "EconoMe",
-    tagline: "Personal finance tracker",
-    image: "/econo-me.jpg",
-    images: ["/econo-me.jpg", "/econo-me-detail1.jpg", "/econo-me-detail2.jpg"],
-    description:
-      "EconoMe is a comprehensive financial management application designed to help users track expenses, set financial goals, and make informed financial decisions. It features secure user authentication via Auth0, intuitive expense tracking with categorization, goal setting with progress monitoring, and a price comparison tool to maximize savings. The responsive user interface ensures accessibility across devices. The application is structured with a React frontend and a Node.js backend, utilizing Express for server-side logic and MongoDB for data storage.",
-    technologies: ["React", "Node.js", "Express", "MongoDB", "Auth0"],
-    link: "https://github.com/IzahSohail/Econo-Me",
   },
   {
     id: 4,
     title: "NYC Murals",
-    tagline: "Street art explorer",
-    image: "/nyc-murals.jpg",
+    tagline: "Explore street art across New York City",
+    image: "/nyc-murals-thumbnail.jpg",
     images: ["/nyc-murals.jpg", "/nyc-murals-detail1.jpg", "/nyc-murals-detail2.jpg"],
     description:
       "An interactive web application that showcases murals across New York City, allowing users to explore and learn about various street artworks. Built with Next.js and TypeScript, the project leverages server-side rendering for optimized performance and utilizes Tailwind CSS for responsive and modern styling. The application features dynamic routing to provide detailed information about each mural and integrates map functionalities to display mural locations effectively.",
-    technologies: ["Next.js", "TypeScript", "Tailwind CSS"],
+    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
     link: "https://nyc-murals.vercel.app",
   },
   {
     id: 5,
-    title: "SchedYouLater",
-    tagline: "Timezone-friendly call planning",
-    image: "/schedYouLater.png",
-    images: ["/schedYouLater.png", "/SchedYouLater-detail1.jpg"],
-    description:
-      "SchedYouLater is a web-based application designed to help users find optimal times to schedule calls with their family or friends, taking time zone differences into account. The app allows users to view their own and their friends' schedules, find free time slots, and propose meeting times that work for both parties, automatically converting times to the correct time zone for each user.",
-    technologies: ["React.js", "Node.js", "TimeAPI.io", "PostgreSQL"],
-    link: "https://github.com/IzahSohail/SchedYouLater",
-  },
-  {
-    id: 6,
-    title: "Spot AI",
-    tagline: "Human or AI? A party game",
-    image: "/spot-ai.jpg",
-    images: ["/spot-ai.jpg", "/spot-ai-detail1.jpg", "/spot-ai-detail2.jpg"],
-    description:
-      "A real-time multiplayer web game that challenges players to distinguish between human-written and AI-generated responses. In each round, players respond to the same prompt with their own text. One additional response is generated by GPT-4. All responses are then displayed anonymously, and players vote on which one they believe was written by the AI. Players earn points if their responses fool others. The game offers a playful but revealing look at how convincingly AI can mimic human writing. Built using Flask and PostgreSQL for a scalable backend, and WebSockets for real-time gameplay.",
-    technologies: ["Flask", "PostgreSQL", "Socket.io", "OpenAI API"],
-  },
-  {
-    id: 7,
     title: "PhotoShare",
-    tagline: "Photo sharing platform",
-    image: "/photoshare.jpg",
+    tagline: "Flickr-inspired photo sharing platform",
+    image: "/photoshare-thumbnail.jpg",
     images: ["/photoshare.jpg"],
     description:
       "A Flickr-inspired web app developed for a Database Systems course. Users can register, upload photos, create albums, tag content, like/comment on photos, and receive recommendations. Backend is built using Django and PostgreSQL with ER modeling, indexing strategies, and query optimization. Includes photo search, user management, and content discovery tools.",
@@ -108,33 +97,49 @@ const PROJECTS: Project[] = [
     link: "https://github.com/IzahSohail/instagram2.0",
   },
   {
-    id: 8,
+    id: 6,
     title: "Fever Dream",
-    tagline: "Generative art experiment",
-    image: "/fever-dream.jpg",
+    tagline: "Generative art and music visualization",
+    image: "/fever-dream-thumbnail.jpg",
     images: ["/fever-dream.jpg", "/fever-dream-detail1.jpg", "/fever-dream-detail2.jpg"],
     description:
-      "An experimental digital experience blending generative art and music visualization. Users interact with dreamlike visuals generated using shaders and Perlin noise, synced to ambient audio. Built with WebGL and Three.js to render psychedelic visual loops in real-time.",
-    technologies: ["Adobe Illustrator, JavaScript"],
+      "An experimental digital experience blending generative art and music visualization. Users interact with dreamlike visuals designed in Adobe Illustrator and brought to life with JavaScript.",
+    technologies: ["Adobe Illustrator", "JavaScript"],
     link: "https://izahsohail.github.io/feverdream",
   },
+]
+
+const ABOUT_PARAGRAPHS = [
+  "I've always had a knack for solving problems. Whether it was figuring out how something worked or finding a better way to do it, I've always enjoyed breaking challenges down and finding practical solutions.",
+  "At NYU, I discovered the potential of turning ideas into products that people can actually use. Through coursework, research, and countless side projects, I learned that software isn't just about writing code. It's about understanding problems deeply enough to build the right solutions.",
+  "That perspective grew even stronger through my research, where I worked on challenges ranging from political transparency to AI-assisted software engineering. Seeing how thoughtful software and data can make complex information more accessible, reveal meaningful insights, and support better decision-making inspired me to build technology with real-world impact.",
+  "Over the years, I've applied my skills across different areas, from AI-powered learning tools to full-stack web applications, taking projects from the initial idea all the way to deployment. More than any particular technology, I value curiosity, adaptability, and the excitement of learning something new.",
+  "Outside of software, I enjoy exploring new digital tools, creating digital art, and playing just about any racket sport.",
 ]
 
 export default function Portfolio() {
   const projectsSectionRef = useRef<HTMLElement>(null)
   const publicationsSectionRef = useRef<HTMLElement>(null)
+  const aboutSectionRef = useRef<HTMLElement>(null)
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
-  const [aboutOpen, setAboutOpen] = useState(false)
 
   const getMaxScroll = () => {
-    const el = publicationsSectionRef.current ?? projectsSectionRef.current
+    const el =
+      aboutSectionRef.current ?? publicationsSectionRef.current ?? projectsSectionRef.current
     if (!el) return 0
     return Math.max(0, el.offsetTop + el.offsetHeight - window.innerHeight)
   }
 
   useEffect(() => {
-    const open = aboutOpen || selectedProject !== null
-    if (!open) return
+    const hash = window.location.hash.replace("#", "")
+    if (!hash) return
+    requestAnimationFrame(() => {
+      document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" })
+    })
+  }, [])
+
+  useEffect(() => {
+    if (selectedProject === null) return
 
     const scrollY = window.scrollY
     const { documentElement: html, body } = document
@@ -168,10 +173,10 @@ export default function Portfolio() {
       body.style.width = ""
       window.scrollTo(0, scrollY)
     }
-  }, [aboutOpen, selectedProject])
+  }, [selectedProject])
 
   useEffect(() => {
-    if (aboutOpen || selectedProject) return
+    if (selectedProject) return
 
     const enforce = () => {
       const max = getMaxScroll()
@@ -192,47 +197,11 @@ export default function Portfolio() {
       window.removeEventListener("wheel", onWheel)
       window.removeEventListener("resize", enforce)
     }
-  }, [aboutOpen, selectedProject])
-
-  const goToProjects = () => {
-    projectsSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
-  }
-
-  const goToPublications = () => {
-    publicationsSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
-  }
+  }, [selectedProject])
 
   return (
     <main className="page-content">
-      <nav className="site-nav">
-        <button type="button" onClick={() => setAboutOpen(true)}>
-          About me
-        </button>
-        <button type="button" onClick={goToProjects}>
-          Projects
-        </button>
-        <button type="button" onClick={goToPublications}>
-          Publications
-        </button>
-        <a
-          href={SOCIAL.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub"
-          className="nav-icon-link"
-        >
-          <Github className="nav-icon" strokeWidth={1.75} />
-        </a>
-        <a
-          href={SOCIAL.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="LinkedIn"
-          className="nav-icon-link"
-        >
-          <Linkedin className="nav-icon" strokeWidth={1.75} />
-        </a>
-      </nav>
+      <SiteNav />
 
       <section className="landing">
         <div className="landing-inner">
@@ -240,6 +209,9 @@ export default function Portfolio() {
             <div className="landing-copy">
               <h1 className="landing-title">Izah Sohail</h1>
               <p className="landing-subtitle">AI & Full-Stack Developer</p>
+              <p className="landing-tagline">
+                I enjoy exploring new tech to turn data into insight & insight into products.
+              </p>
             </div>
 
             <div className="landing-illustration-wrap">
@@ -270,6 +242,8 @@ export default function Portfolio() {
               title={project.title}
               tagline={project.tagline}
               image={project.image}
+              technologies={project.technologies}
+              link={project.link}
               onClick={() => setSelectedProject(project)}
             />
           ))}
@@ -298,6 +272,13 @@ export default function Portfolio() {
                 FSE Companion &apos;26: Proceedings of the 34th ACM International Conference on the
                 Foundations of Software Engineering
               </p>
+              <p className="publication-description">
+                Developed a scalable metric to measure developers&apos; negative emotions toward
+                technical debt by analyzing over 73,000 issue tracker comments from large
+                open-source projects. My work showed that infrastructure-related technical debt
+                causes greater emotional burden than implementation-level issues, highlighting the
+                importance of considering developer well-being when prioritizing technical debt.
+              </p>
               <p className="publication-meta">Pages 1643–1651</p>
               <p className="publication-doi">https://doi.org/10.1145/3803437.3805542</p>
             </a>
@@ -305,8 +286,49 @@ export default function Portfolio() {
         </ul>
       </section>
 
+      <section
+        id="about"
+        ref={aboutSectionRef}
+        className="about-section"
+        aria-labelledby="about-heading"
+      >
+        <div className="about-layout">
+          <h2 id="about-heading" className="about-heading">
+            About me
+          </h2>
+
+          <div className="about-grid">
+            <div className="about-copy">
+              <div className="about-prose">
+                {ABOUT_PARAGRAPHS.map((text) => (
+                  <p key={text.slice(0, 32)} className="about-body">
+                    {text}
+                  </p>
+                ))}
+              </div>
+
+              <div className="about-actions">
+                <a className="about-cta" href="mailto:is2587@nyu.edu">
+                  Let&apos;s connect!
+                </a>
+              </div>
+            </div>
+
+            <div className="about-photo-frame">
+              <Image
+                src="/about-me.jpg"
+                alt="Portrait of Izah Sohail"
+                width={720}
+                height={900}
+                sizes="(max-width: 640px) 240px, 340px"
+                className="about-photo"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
-      <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} />
     </main>
   )
 }

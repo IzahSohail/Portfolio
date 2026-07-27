@@ -32,7 +32,11 @@ function Sequence({
   return (
     <ul className="tech-ticker-sequence" aria-hidden={ariaHidden || undefined}>
       {icons.map((icon, index) => (
-        <li key={`${icon.src}-${index}`} className="tech-ticker-item">
+        <li
+          key={`${icon.src}-${index}`}
+          className="tech-ticker-item"
+          data-name={icon.alt}
+        >
           <Image
             src={icon.src}
             alt={ariaHidden ? "" : icon.alt}

@@ -1,6 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Delius, Poppins, Quicksand } from "next/font/google"
+import { Poppins } from "next/font/google"
+import CursorGlow from "@/components/cursor-glow"
 import "./globals.css"
 import "./portfolio.css"
 
@@ -10,22 +11,13 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700", "800"],
 })
 
-const quicksand = Quicksand({
-  subsets: ["latin"],
-  variable: "--font-quicksand",
-  weight: ["500", "600", "700"],
-})
-
-const delius = Delius({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-delius",
-})
-
 export const metadata: Metadata = {
   title: "Izah Sohail",
   description: "Software Engineer — Portfolio",
 }
+
+// Applies the saved (or system) theme before first paint to avoid a light flash
+const themeInitScript = `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.classList.add("dark")}}catch(e){}})()`
 
 export default function RootLayout({
   children,
@@ -33,10 +25,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`${poppins.variable} ${quicksand.variable} ${delius.variable} site-bg`}>
-        <div className="ambient-glow ambient-glow--main" aria-hidden />
-        <div className="ambient-glow ambient-glow--teal" aria-hidden />
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className={`${poppins.variable} site-bg`}>
+        <CursorGlow />
         {children}
       </body>
     </html>

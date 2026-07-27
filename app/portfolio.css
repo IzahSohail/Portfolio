@@ -2,6 +2,58 @@
   --projects-grid-max-width: 68rem;
   --projects-column-gap: 2.25rem;
   --projects-row-gap: 2.5rem;
+
+  /* ── Light theme palette ── */
+  --bg: #f5f4f4;
+  --nav-bg: rgba(245, 244, 244, 0.72);
+  --nav-border: rgba(34, 84, 156, 0.06);
+  --heading: #22549c;
+  --nav-link: #305ba3;
+  --teal: #36b5c2;
+  --text-strong: #111111;
+  --text-body: #1d1d1f;
+  --text-secondary: #333333;
+  --text-muted: #5a6570;
+  --accent-solid: #22549c;
+  --accent-solid-text: #ffffff;
+  --accent-outline: rgba(34, 84, 156, 0.35);
+  --card-surface: rgba(255, 255, 255, 0.55);
+  --card-border: rgba(34, 84, 156, 0.18);
+  --media-placeholder: rgba(34, 84, 156, 0.06);
+  --shadow-hover: 0 12px 28px rgba(34, 84, 156, 0.14);
+  --shadow-card-hover: 0 10px 24px rgba(34, 84, 156, 0.12);
+  --photo-shadow:
+    0 1px 2px rgba(17, 17, 17, 0.04),
+    0 18px 40px rgba(34, 84, 156, 0.12);
+  --glow-main-opacity: 0.45;
+  --glow-teal-opacity: 0.35;
+}
+
+/* ── Dark theme palette ── */
+html.dark {
+  --bg: #0d1321;
+  --nav-bg: rgba(13, 19, 33, 0.72);
+  --nav-border: rgba(138, 176, 240, 0.08);
+  --heading: #8ab0f0;
+  --nav-link: #9db8e8;
+  --teal: #4cc9d6;
+  --text-strong: #eef1f7;
+  --text-body: #dde2ec;
+  --text-secondary: #c3c9d6;
+  --text-muted: #98a2b3;
+  --accent-solid: #2f66bd;
+  --accent-solid-text: #ffffff;
+  --accent-outline: rgba(138, 176, 240, 0.45);
+  --card-surface: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(138, 176, 240, 0.2);
+  --media-placeholder: rgba(138, 176, 240, 0.08);
+  --shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.45);
+  --shadow-card-hover: 0 10px 24px rgba(0, 0, 0, 0.4);
+  --photo-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 18px 40px rgba(0, 0, 0, 0.45);
+  --glow-main-opacity: 0.16;
+  --glow-teal-opacity: 0.14;
 }
 
 @media (min-width: 768px) {
@@ -28,9 +80,10 @@ body {
   padding: 0;
   min-height: 100%;
   overflow-x: hidden;
-  color: #111111;
+  color: var(--text-strong);
   font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
-  background-color: #f5f4f4 !important;
+  background-color: var(--bg) !important;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 body {
@@ -40,7 +93,7 @@ body {
 .site-bg {
   position: relative;
   min-height: 100%;
-  background-color: #f5f4f4 !important;
+  background-color: var(--bg) !important;
   background-image:
     radial-gradient(
       ellipse 70% 60% at 68% 42%,
@@ -57,6 +110,22 @@ body {
   background-attachment: fixed;
 }
 
+html.dark .site-bg {
+  background-image:
+    radial-gradient(
+      ellipse 70% 60% at 68% 42%,
+      rgba(54, 181, 194, 0.16) 0%,
+      rgba(54, 181, 194, 0.06) 35%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 65% 55% at 52% 58%,
+      rgba(64, 118, 200, 0.18) 0%,
+      rgba(64, 118, 200, 0.07) 40%,
+      transparent 72%
+    ) !important;
+}
+
 .ambient-glow {
   position: fixed;
   pointer-events: none;
@@ -71,7 +140,7 @@ body {
   width: min(52vw, 520px);
   height: min(52vw, 520px);
   background: #36b5c2;
-  opacity: 0.45;
+  opacity: var(--glow-main-opacity);
 }
 
 .ambient-glow--teal {
@@ -80,7 +149,16 @@ body {
   width: min(48vw, 460px);
   height: min(42vw, 400px);
   background: #22549c;
-  opacity: 0.35;
+  opacity: var(--glow-teal-opacity);
+}
+
+/* Cursor-follow mode: anchor to the viewport origin so the JS transform
+   can position the glow center directly at the (eased) cursor point */
+.ambient-glow.is-following {
+  top: 0;
+  left: 0;
+  right: auto;
+  will-change: transform;
 }
 
 .page-content {
@@ -98,11 +176,11 @@ body {
   gap: 1.75rem;
   padding: 1.4rem 1.75rem;
   /* Soft frosted strip — light + slightly see-through over the page */
-  background: rgba(245, 244, 244, 0.72) !important;
+  background: var(--nav-bg) !important;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: none !important;
-  border-bottom: 1px solid rgba(34, 84, 156, 0.06);
+  border-bottom: 1px solid var(--nav-border);
 }
 
 @media (min-width: 768px) {
@@ -112,14 +190,15 @@ body {
   }
 }
 
-.site-nav button {
+.site-nav button,
+.site-nav .nav-text-link {
   appearance: none;
   -webkit-appearance: none;
   margin: 0;
   padding: 0;
   border: none !important;
   background: transparent !important;
-  color: #305ba3 !important;
+  color: var(--nav-link) !important;
   font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
   font-size: 0.95rem;
   font-weight: 400;
@@ -130,12 +209,14 @@ body {
 }
 
 @media (min-width: 768px) {
-  .site-nav button {
+  .site-nav button,
+  .site-nav .nav-text-link {
     font-size: 1.05rem;
   }
 }
 
-.site-nav button:hover {
+.site-nav button:hover,
+.site-nav .nav-text-link:hover {
   opacity: 0.5;
 }
 
@@ -143,7 +224,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #305ba3;
+  color: var(--nav-link);
   text-decoration: none;
   transition: opacity 0.15s ease;
 }
@@ -205,7 +286,7 @@ body {
   font-style: italic;
   line-height: 1.05;
   letter-spacing: -0.03em;
-  color: #22549c !important;
+  color: var(--heading) !important;
   white-space: nowrap;
 }
 
@@ -216,7 +297,17 @@ body {
   font-weight: 400;
   font-style: normal;
   line-height: 1.3;
-  color: #111111 !important;
+  color: var(--text-strong) !important;
+}
+
+.landing-tagline {
+  margin: 0.75rem 0 0;
+  max-width: 28rem;
+  font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--text-muted);
 }
 
 .landing-illustration-wrap {
@@ -262,16 +353,21 @@ body {
   will-change: transform;
 }
 
+.tech-ticker:hover .tech-ticker-track {
+  animation-play-state: paused;
+}
+
 .tech-ticker-sequence {
   display: flex;
   align-items: center;
   flex-shrink: 0;
   margin: 0;
-  padding: 0.75rem 0;
+  padding: 1.75rem 0 0.75rem;
   list-style: none;
 }
 
 .tech-ticker-item {
+  position: relative;
   display: flex;
   flex-shrink: 0;
   align-items: center;
@@ -280,6 +376,33 @@ body {
   height: 64px;
   /* Same trailing gap on every icon — keeps spacing even across the loop seam */
   margin: 0 56px 0 0;
+  cursor: default;
+}
+
+.tech-ticker-item::after {
+  content: attr(data-name);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.4rem);
+  z-index: 2;
+  padding: 0.28rem 0.55rem;
+  border-radius: 4px;
+  background: var(--accent-solid);
+  color: var(--accent-solid-text);
+  font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-50%) translateY(4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.tech-ticker-item:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 .tech-ticker-item img {
@@ -329,9 +452,9 @@ body {
 .publication-card {
   display: block;
   padding: 1.5rem 1.75rem;
-  border: 1px solid rgba(34, 84, 156, 0.18);
+  border: 1px solid var(--card-border);
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.55);
+  background: var(--card-surface);
   text-decoration: none;
   color: inherit;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
@@ -340,7 +463,7 @@ body {
 .publication-card:hover {
   transform: translateY(-2px);
   border-color: rgba(54, 181, 194, 0.55);
-  box-shadow: 0 10px 24px rgba(34, 84, 156, 0.12);
+  box-shadow: var(--shadow-card-hover);
 }
 
 .publication-title {
@@ -349,7 +472,7 @@ body {
   font-size: clamp(1.15rem, 2vw, 1.4rem);
   font-weight: 700;
   line-height: 1.35;
-  color: #22549c;
+  color: var(--heading);
 }
 
 .publication-venue {
@@ -357,21 +480,29 @@ body {
   font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
   font-size: 0.95rem;
   line-height: 1.45;
-  color: #333333;
+  color: var(--text-secondary);
+}
+
+.publication-description {
+  margin: 0.85rem 0 0;
+  font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-body);
 }
 
 .publication-meta {
   margin: 0.45rem 0 0;
   font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
   font-size: 0.9rem;
-  color: #5a6570;
+  color: var(--text-muted);
 }
 
 .publication-doi {
   margin: 0.65rem 0 0;
   font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
   font-size: 0.875rem;
-  color: #36b5c2;
+  color: var(--teal);
   word-break: break-all;
 }
 
@@ -385,7 +516,7 @@ body {
   font-style: italic;
   line-height: 1;
   letter-spacing: -0.03em;
-  color: #22549c !important;
+  color: var(--heading) !important;
 }
 
 .projects-grid {
@@ -410,44 +541,46 @@ body {
   }
 }
 
-.polaroid {
+.project-card {
   display: flex;
   width: 100%;
-  max-width: 100%;
+  height: 100%; /* grid rows stretch — lets the CTA pin to a shared baseline */
   flex-direction: column;
-  background-color: #f4f2ec;
-  padding: 0.8rem 0.8rem 1.4rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
+  align-items: flex-start;
   text-align: left;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.project-card-media {
+  position: relative;
+  display: block;
+  width: 100%;
+  /* Matches the 1920x1080 Canva cover images so they render uncropped */
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: var(--media-placeholder);
+  cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
-  font: inherit;
-  color: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.polaroid:hover,
-.polaroid:focus-visible {
+.project-card-media:hover,
+.project-card-media:focus-visible {
   outline: none;
-  transform: translateY(-3px);
-  box-shadow: 0 14px 28px rgba(34, 84, 156, 0.14);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
 }
 
-.polaroid-image {
-  position: relative;
-  width: 100%;
-  height: 0;
-  padding-bottom: 100%;
-  overflow: hidden;
-  background: rgba(34, 84, 156, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.16);
-}
-
-.polaroid-image > img,
-.polaroid-image > span,
-.polaroid-image > span > img {
+.project-card-media > img,
+.project-card-media > span,
+.project-card-media > span > img {
   position: absolute !important;
   inset: 0 !important;
   width: 100% !important;
@@ -457,23 +590,89 @@ body {
   object-fit: cover !important;
 }
 
-.polaroid-title {
+.project-card-title {
   margin: 1rem 0 0;
-  font-family: var(--font-quicksand), "Quicksand", sans-serif;
-  font-size: 1.25rem;
+  font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
+  font-size: clamp(1.2rem, 1.8vw, 1.45rem);
   font-weight: 700;
-  line-height: 1.15;
-  color: #22549c;
-  text-align: center;
+  line-height: 1.2;
+  color: var(--heading);
 }
 
-.polaroid-tagline {
-  margin: 0.3rem 0 0;
-  font-family: var(--font-delius), "Delius", cursive;
-  font-size: 0.95rem;
-  line-height: 1.3;
-  color: #5a6570;
-  text-align: center;
+.project-card-title button {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: opacity 0.15s ease;
+}
+
+.project-card-title button:hover {
+  opacity: 0.7;
+}
+
+.project-card-tagline {
+  margin: 0.4rem 0 0;
+  font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.project-card-tech {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+  list-style: none;
+  /* bottom margin keeps a gap above the CTA even on the tallest card */
+  margin: 0.85rem 0 1.1rem;
+  padding: 0;
+}
+
+.project-card-tech-item {
+  position: relative;
+  display: flex;
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-card-tech-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.project-card-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* auto pushes the button to the card bottom so all CTAs in a row line up */
+  margin-top: auto;
+  padding: 0.65rem 1.35rem;
+  border-radius: 999px;
+  background: var(--accent-solid);
+  color: var(--accent-solid-text);
+  font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.project-card-cta:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
 @media (max-width: 640px) {
@@ -505,4 +704,170 @@ body {
     transform: translateX(40%);
     top: 55%;
   }
+}
+
+/* ── About section (home page) ── */
+.about-section {
+  position: relative;
+  z-index: 1;
+  scroll-margin-top: 5rem;
+  padding: 3rem clamp(1.25rem, 4vw, 3.5rem) 6rem;
+}
+
+.about-layout {
+  max-width: var(--projects-grid-max-width);
+  margin-inline: auto;
+}
+
+.about-heading {
+  margin: 0 0 2.75rem;
+  font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
+  font-size: clamp(3rem, 7vw, 4.5rem);
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--heading);
+}
+
+/* Two-column split: prose left, portrait right; stacks on mobile */
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.about-copy {
+  min-width: 0;
+}
+
+.about-prose {
+  max-width: 42rem;
+}
+
+.about-photo-frame {
+  width: 100%;
+  overflow: hidden;
+  background: var(--media-placeholder);
+  box-shadow: var(--photo-shadow);
+}
+
+.about-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 18%;
+}
+
+.about-body {
+  margin: 0 0 1.2rem;
+  font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
+  font-size: clamp(0.98rem, 1.25vw, 1.08rem);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--text-body);
+}
+
+.about-body:last-child {
+  margin-bottom: 0;
+}
+
+.about-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem 1rem;
+  padding-top: 2rem;
+}
+
+.about-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.7rem;
+  border-radius: 999px;
+  background: var(--accent-solid);
+  color: var(--accent-solid-text);
+  font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
+  font-size: 0.98rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.about-cta:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  /* Portrait first on small screens, then the story, ending on the CTAs */
+  .about-photo-frame {
+    order: -1;
+    width: min(300px, 78%);
+  }
+}
+
+/* ── Theme toggle switch ── */
+/* Scoped as .site-nav .theme-toggle so it overrides the generic .site-nav button reset */
+.theme-toggle,
+.site-nav .theme-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 3rem;
+  height: 1.6rem;
+  margin: 0;
+  padding: 0.15rem !important;
+  border: 1px solid var(--accent-outline) !important;
+  border-radius: 999px;
+  background: var(--card-surface) !important;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.theme-toggle-knob {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  background: var(--accent-solid);
+  color: var(--accent-solid-text);
+  transform: translateX(0);
+  transition: transform 0.2s ease;
+}
+
+html.dark .theme-toggle-knob {
+  transform: translateX(1.35rem);
+}
+
+.theme-toggle-knob svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+/* ── Dark-mode fixes for dark-colored SVG icons (Next.js, Flask, Django…) ── */
+html.dark .tech-ticker-item img,
+html.dark .project-card-tech-item img {
+  background: rgba(240, 243, 248, 0.92);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+html.dark .project-card-tech-item img {
+  border-radius: 6px;
+  padding: 2px;
 }

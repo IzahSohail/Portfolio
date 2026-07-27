@@ -5,6 +5,7 @@ import type React from "react"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import Image from "next/image"
 import { useEffect, useState } from "react"
+import { getTechIcon } from "@/lib/tech-icons"
 
 interface ProjectModalProps {
   project: {
@@ -61,7 +62,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
     >
       <div
         data-modal-scroll
-        className={`relative max-h-[92vh] w-full max-w-3xl overflow-y-auto overscroll-contain rounded-sm bg-white p-4 shadow-xl transition-all duration-300 sm:p-8 ${
+        className={`relative max-h-[92vh] w-full max-w-3xl overflow-y-auto overscroll-contain rounded-sm bg-white p-4 shadow-xl transition-all duration-300 dark:bg-[#151d30] sm:p-8 ${
           isVisible ? "scale-100" : "scale-95"
         }`}
         onClick={(e) => e.stopPropagation()}
@@ -69,18 +70,18 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         <button
           onClick={handleClose}
           aria-label="Close"
-          className="absolute right-3 top-3 z-10 text-zinc-500 transition hover:text-ink sm:right-4 sm:top-4"
+          className="absolute right-3 top-3 z-10 text-zinc-500 transition hover:text-ink dark:text-zinc-400 dark:hover:text-zinc-100 sm:right-4 sm:top-4"
         >
           <X size={22} />
         </button>
 
-        <h2 className="mb-3 pr-8 font-heading text-3xl font-extrabold italic text-heading sm:mb-5 sm:text-4xl">
+        <h2 className="mb-3 pr-8 font-heading text-3xl font-extrabold italic text-heading dark:text-[#8ab0f0] sm:mb-5 sm:text-4xl">
           {project.title}
         </h2>
 
         <div className="relative mb-4 h-[250px] w-full sm:mb-6 sm:h-[400px]">
           <Image
-            src={currentImage || "/placeholder.svg"}
+            src={currentImage}
             alt={`${project.title} - image ${currentImageIndex + 1}`}
             fill
             className="rounded-sm bg-white/60 object-contain"
@@ -122,23 +123,32 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           )}
         </div>
 
-        <p className="mb-4 font-body text-sm text-ink/80 sm:mb-6 sm:text-base">{project.description}</p>
+        <p className="mb-4 font-body text-sm text-ink/80 dark:text-slate-300 sm:mb-6 sm:text-base">{project.description}</p>
 
         {project.technologies && (
           <div className="mb-4 sm:mb-6">
-            <h3 className="mb-2 font-heading text-lg font-semibold text-ink sm:text-xl">
+            <h3 className="mb-2 font-heading text-lg font-semibold text-ink dark:text-[#9db8e8] sm:text-xl">
               Technologies Used
             </h3>
-            <div className="flex flex-wrap gap-1.5 sm:gap-2">
-              {project.technologies.map((tech, index) => (
-                <span
-                  key={index}
-                  className="rounded-full bg-ink/10 px-3 py-1 text-xs text-ink sm:text-sm"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
+            <ul className="project-card-tech">
+              {project.technologies.map((tech) => {
+                const icon = getTechIcon(tech)
+                if (!icon) {
+                  return (
+                    <li key={tech}>
+                      <span className="rounded-full bg-ink/10 px-3 py-1 text-xs text-ink dark:bg-white/10 dark:text-slate-200 sm:text-sm">
+                        {tech}
+                      </span>
+                    </li>
+                  )
+                }
+                return (
+                  <li key={tech} className="project-card-tech-item" title={tech}>
+                    <Image src={icon.src} alt={icon.alt} width={32} height={32} unoptimized />
+                  </li>
+                )
+              })}
+            </ul>
           </div>
         )}
 
@@ -147,9 +157,9 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             href={project.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block rounded-full bg-ink px-4 py-2 text-sm text-white transition hover:bg-heading sm:text-base"
+            className="inline-block rounded-full bg-ink px-4 py-2 text-sm text-white transition hover:bg-heading dark:bg-[#2f66bd] dark:hover:bg-[#3b76d4] sm:text-base"
           >
-            View Project
+            View project
           </a>
         )}
       </div>
