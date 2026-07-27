@@ -23,14 +23,14 @@ export default function SiteNav() {
 
   return (
     <nav className="site-nav">
-      <button type="button" onClick={() => goHomeSection("about")}>
-        About me
-      </button>
       <button type="button" onClick={() => goHomeSection("projects")}>
         Projects
       </button>
       <button type="button" onClick={() => goHomeSection("publications")}>
         Publications
+      </button>
+      <button type="button" onClick={() => goHomeSection("about")}>
+        About me
       </button>
       <a
         href={SOCIAL.github}
