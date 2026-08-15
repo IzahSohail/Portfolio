@@ -4,22 +4,19 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 
 const TECH_ICONS = [
-  { src: "/assets/CSS.svg", alt: "CSS" },
-  { src: "/assets/JavaScript.svg", alt: "JavaScript" },
-  { src: "/assets/Kafka.svg", alt: "Kafka" },
-  { src: "/assets/MongoDB.svg", alt: "MongoDB" },
-  { src: "/assets/postgre.svg", alt: "PostgreSQL" },
-  { src: "/assets/Python-Light.svg", alt: "Python" },
-  { src: "/assets/react.svg", alt: "React" },
-  { src: "/assets/TailwindCSS-Light.svg", alt: "Tailwind CSS" },
-  { src: "/assets/Supabase-Light.svg", alt: "Supabase" },
+  { src: "/icons/CSS.svg", alt: "CSS" },
+  { src: "/icons/JavaScript.svg", alt: "JavaScript" },
+  { src: "/icons/Kafka.svg", alt: "Kafka" },
+  { src: "/icons/MongoDB.svg", alt: "MongoDB" },
+  { src: "/icons/postgre.svg", alt: "PostgreSQL" },
+  { src: "/icons/Python-Light.svg", alt: "Python" },
+  { src: "/icons/react.svg", alt: "React" },
+  { src: "/icons/TailwindCSS-Light.svg", alt: "Tailwind CSS" },
+  { src: "/icons/Supabase-Light.svg", alt: "Supabase" },
 ]
 
-/** Icon box size — keep in sync with CSS */
 const ICON_PX = 64
-/** Equal gap after every icon (including the last) so the loop seam matches mid-sequence gaps */
 const GAP_PX = 56
-/** Constant scroll speed for a smooth feel at any sequence length */
 const SPEED_PX_PER_SEC = 55
 
 function Sequence({
@@ -58,11 +55,9 @@ export default function TechTicker() {
   useEffect(() => {
     const update = () => {
       const oneSetWidth = TECH_ICONS.length * (ICON_PX + GAP_PX)
-      // Fill at least the viewport (+ one set buffer) so the strip never looks sparse
       const setsNeeded = Math.max(2, Math.ceil((window.innerWidth + oneSetWidth) / oneSetWidth))
       const sequenceWidth = setsNeeded * oneSetWidth
       setSetCount(setsNeeded)
-      // Animate exactly one sequence width at constant px/s → seamless when resetting at -50%
       setDurationSec(sequenceWidth / SPEED_PX_PER_SEC)
     }
 
@@ -80,7 +75,6 @@ export default function TechTicker() {
         style={{ animationDuration: `${durationSec}s` }}
         aria-label="Tech stack"
       >
-        {/* Two identical sequences; CSS translates by -50% (= one sequence) for a continuous loop */}
         <Sequence icons={sequence} />
         <Sequence icons={sequence} ariaHidden />
       </div>

@@ -1,40 +1,39 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import { getTechIcon } from "@/lib/tech-icons"
 
 interface ProjectCardProps {
   title: string
   tagline?: string
   image: string
+  slug: string
   technologies?: string[]
-  link?: string
-  onClick: () => void
 }
 
 export default function ProjectCard({
   title,
   tagline,
   image,
+  slug,
   technologies,
-  link,
-  onClick,
 }: ProjectCardProps) {
+  const href = `/projects/${slug}`
+
   return (
     <article className="project-card">
-      <button type="button" className="project-card-media" onClick={onClick} aria-label={`Open ${title}`}>
+      <Link href={href} className="project-card-media" aria-label={`Open ${title}`}>
         <Image
           src={image}
           alt={title}
           fill
           sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 320px"
         />
-      </button>
+      </Link>
 
       <h3 className="project-card-title">
-        <button type="button" onClick={onClick}>
-          {title}
-        </button>
+        <Link href={href}>{title}</Link>
       </h3>
 
       {tagline ? <p className="project-card-tagline">{tagline}</p> : null}
@@ -53,17 +52,9 @@ export default function ProjectCard({
         </ul>
       ) : null}
 
-      {link ? (
-        <a
-          className="project-card-cta"
-          href={link}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => e.stopPropagation()}
-        >
-          View project
-        </a>
-      ) : null}
+      <Link className="project-card-cta" href={href}>
+        View project
+      </Link>
     </article>
   )
 }

@@ -16,7 +16,6 @@ export const metadata: Metadata = {
   description: "Software Engineer — Portfolio",
 }
 
-// Applies the saved (or system) theme before first paint to avoid a light flash
 const themeInitScript = `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.classList.add("dark")}}catch(e){}})()`
 
 export default function RootLayout({

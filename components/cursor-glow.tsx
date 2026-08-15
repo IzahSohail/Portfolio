@@ -2,8 +2,6 @@
 
 import { useEffect, useRef } from "react"
 
-/* Lerp factors per frame — lower = lazier trailing. The two glows use
-   different speeds so they drift apart while moving, like layered light. */
 const MAIN_EASE = 0.09
 const TEAL_EASE = 0.05
 
@@ -46,8 +44,6 @@ export default function CursorGlow() {
       if (following) return
       following = true
 
-      // Seed positions from where the glows currently sit so they glide
-      // toward the cursor instead of jumping on the first mouse move.
       for (const [el, pos] of [
         [main, mainPos],
         [teal, tealPos],

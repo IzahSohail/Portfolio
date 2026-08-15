@@ -3,7 +3,7 @@
   --projects-column-gap: 2.25rem;
   --projects-row-gap: 2.5rem;
 
-  /* ── Light theme palette ── */
+  
   --bg: #f5f4f4;
   --nav-bg: rgba(245, 244, 244, 0.72);
   --nav-border: rgba(34, 84, 156, 0.06);
@@ -27,9 +27,12 @@
     0 18px 40px rgba(34, 84, 156, 0.12);
   --glow-main-opacity: 0.45;
   --glow-teal-opacity: 0.35;
+  --panel-bg: #2f5f9e;
+  --panel-text: #ffffff;
+  --panel-muted: rgba(255, 255, 255, 0.88);
+  --panel-shadow: 0 14px 36px rgba(34, 84, 156, 0.18);
 }
 
-/* ── Dark theme palette ── */
 html.dark {
   --bg: #0d1321;
   --nav-bg: rgba(13, 19, 33, 0.72);
@@ -54,6 +57,10 @@ html.dark {
     0 18px 40px rgba(0, 0, 0, 0.45);
   --glow-main-opacity: 0.16;
   --glow-teal-opacity: 0.14;
+  --panel-bg: #1c3358;
+  --panel-text: #f4f7fc;
+  --panel-muted: rgba(244, 247, 252, 0.86);
+  --panel-shadow: 0 14px 36px rgba(0, 0, 0, 0.4);
 }
 
 @media (min-width: 768px) {
@@ -152,8 +159,6 @@ html.dark .site-bg {
   opacity: var(--glow-teal-opacity);
 }
 
-/* Cursor-follow mode: anchor to the viewport origin so the JS transform
-   can position the glow center directly at the (eased) cursor point */
 .ambient-glow.is-following {
   top: 0;
   left: 0;
@@ -175,7 +180,7 @@ html.dark .site-bg {
   justify-content: flex-end;
   gap: 1.75rem;
   padding: 1.4rem 1.75rem;
-  /* Soft frosted strip — light + slightly see-through over the page */
+  
   background: var(--nav-bg) !important;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -300,8 +305,33 @@ html.dark .site-bg {
   color: var(--text-strong) !important;
 }
 
+.landing-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  list-style: none;
+  margin: 1.1rem 0 0;
+  padding: 0;
+}
+
+.landing-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 1.05rem;
+  border-radius: 999px;
+  background: var(--accent-solid);
+  color: var(--accent-solid-text);
+  font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  box-shadow: 0 6px 16px rgba(34, 84, 156, 0.18);
+}
+
 .landing-tagline {
-  margin: 0.75rem 0 0;
+  margin: 0.9rem 0 0;
   max-width: 28rem;
   font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
   font-size: clamp(0.95rem, 1.5vw, 1.1rem);
@@ -374,7 +404,7 @@ html.dark .site-bg {
   justify-content: center;
   width: 64px;
   height: 64px;
-  /* Same trailing gap on every icon — keeps spacing even across the loop seam */
+  
   margin: 0 56px 0 0;
   cursor: default;
 }
@@ -419,7 +449,7 @@ html.dark .site-bg {
     transform: translateX(0);
   }
   to {
-    /* -50% = width of one sequence (track is sequence + duplicate) */
+    
     transform: translateX(-50%);
   }
 }
@@ -544,7 +574,7 @@ html.dark .site-bg {
 .project-card {
   display: flex;
   width: 100%;
-  height: 100%; /* grid rows stretch — lets the CTA pin to a shared baseline */
+  height: 100%; 
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
@@ -558,7 +588,7 @@ html.dark .site-bg {
   position: relative;
   display: block;
   width: 100%;
-  /* Matches the 1920x1080 Canva cover images so they render uncropped */
+  
   aspect-ratio: 16 / 9;
   overflow: hidden;
   margin: 0;
@@ -566,6 +596,7 @@ html.dark .site-bg {
   border: none;
   background: var(--media-placeholder);
   cursor: pointer;
+  text-decoration: none;
   appearance: none;
   -webkit-appearance: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -599,21 +630,13 @@ html.dark .site-bg {
   color: var(--heading);
 }
 
-.project-card-title button {
-  appearance: none;
-  -webkit-appearance: none;
-  margin: 0;
-  padding: 0;
-  border: none;
-  background: transparent;
+.project-card-title a {
   color: inherit;
-  font: inherit;
-  cursor: pointer;
-  text-align: left;
+  text-decoration: none;
   transition: opacity 0.15s ease;
 }
 
-.project-card-title button:hover {
+.project-card-title a:hover {
   opacity: 0.7;
 }
 
@@ -632,7 +655,7 @@ html.dark .site-bg {
   align-items: center;
   gap: 0.55rem;
   list-style: none;
-  /* bottom margin keeps a gap above the CTA even on the tallest card */
+  
   margin: 0.85rem 0 1.1rem;
   padding: 0;
 }
@@ -656,7 +679,7 @@ html.dark .site-bg {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  /* auto pushes the button to the card bottom so all CTAs in a row line up */
+  
   margin-top: auto;
   padding: 0.65rem 1.35rem;
   border-radius: 999px;
@@ -706,7 +729,6 @@ html.dark .site-bg {
   }
 }
 
-/* ── About section (home page) ── */
 .about-section {
   position: relative;
   z-index: 1;
@@ -730,7 +752,6 @@ html.dark .site-bg {
   color: var(--heading);
 }
 
-/* Two-column split: prose left, portrait right; stacks on mobile */
 .about-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
@@ -809,15 +830,13 @@ html.dark .site-bg {
     gap: 2rem;
   }
 
-  /* Portrait first on small screens, then the story, ending on the CTAs */
+  
   .about-photo-frame {
     order: -1;
     width: min(300px, 78%);
   }
 }
 
-/* ── Theme toggle switch ── */
-/* Scoped as .site-nav .theme-toggle so it overrides the generic .site-nav button reset */
 .theme-toggle,
 .site-nav .theme-toggle {
   position: relative;
@@ -859,7 +878,6 @@ html.dark .theme-toggle-knob {
   height: 0.75rem;
 }
 
-/* ── Dark-mode fixes for dark-colored SVG icons (Next.js, Flask, Django…) ── */
 html.dark .tech-ticker-item img,
 html.dark .project-card-tech-item img {
   background: rgba(240, 243, 248, 0.92);
@@ -870,4 +888,394 @@ html.dark .project-card-tech-item img {
 html.dark .project-card-tech-item img {
   border-radius: 6px;
   padding: 2px;
+}
+
+.project-detail-page {
+  min-height: 100dvh;
+}
+
+.case-study {
+  color: var(--text-body);
+  font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
+  line-height: 1.65;
+}
+
+.case-study img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.case-shell {
+  width: min(1080px, calc(100% - 2.5rem));
+  margin: 0 auto;
+  padding: 6rem 0 5rem;
+}
+
+.case-back {
+  display: inline-flex;
+  margin-bottom: 1.5rem;
+  color: var(--nav-link);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.case-back:hover {
+  opacity: 0.55;
+}
+
+.case-hero {
+  padding: 0 0 2.5rem;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.case-hero h1 {
+  margin: 0 0 0.85rem;
+  max-width: 16ch;
+  font-size: clamp(2.35rem, 5vw, 3.5rem);
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--heading);
+}
+
+.case-lede {
+  margin: 0;
+  max-width: 58ch;
+  font-size: 1.08rem;
+  color: var(--text-muted);
+}
+
+.case-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1.6rem;
+}
+
+.case-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  background: var(--card-surface);
+  color: var(--text-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.case-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 1.4rem;
+}
+
+.case-link {
+  color: var(--heading);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+
+.case-link:hover {
+  border-bottom-color: var(--heading);
+}
+
+.case-section {
+  margin-bottom: 3.5rem;
+}
+
+.case-section h2 {
+  margin: 0 0 0.85rem;
+  font-size: clamp(1.45rem, 2.4vw, 1.9rem);
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--heading);
+}
+
+.case-section h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.case-section p {
+  margin: 0 0 1rem;
+  max-width: 68ch;
+  color: var(--text-muted);
+}
+
+.case-section p:last-child {
+  margin-bottom: 0;
+}
+
+.case-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+.case-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.case-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.case-grid--split {
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.case-split-copy h2 {
+  margin-bottom: 0.75rem;
+}
+
+.case-card,
+.case-adr {
+  background: var(--card-surface);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 1.1rem 1.2rem;
+  box-shadow: var(--shadow-card-hover);
+}
+
+.case-card p,
+.case-adr p {
+  margin: 0;
+  max-width: none;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.case-label {
+  display: inline-block;
+  margin-bottom: 0.45rem;
+  color: var(--heading);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.case-figures {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1.2rem;
+}
+
+.case-figures--grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.case-figures--grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.case-figure {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  background: var(--card-surface);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.case-figure-media {
+  background: var(--media-placeholder);
+}
+
+.case-figure-image {
+  width: 100%;
+  height: auto;
+}
+
+.case-figure--lite .case-figure-image {
+  width: auto;
+  max-width: 100%;
+  max-height: 280px;
+  margin: 1.25rem auto;
+  object-fit: contain;
+}
+
+.case-figure--wide {
+  margin-top: 1.25rem;
+}
+
+.case-figure figcaption {
+  padding: 0.9rem 1.1rem 1.05rem;
+  border-top: 1px solid var(--card-border);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.case-figure-caption {
+  display: block;
+}
+
+.case-bullets {
+  margin: 0.75rem 0 0;
+  padding-left: 1.15rem;
+  color: var(--text-muted);
+}
+
+.case-bullets li {
+  margin-bottom: 0.45rem;
+}
+
+.case-bullets li:last-child {
+  margin-bottom: 0;
+}
+
+.case-phases {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.case-phases li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.85rem;
+  align-items: start;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  background: var(--card-surface);
+  border: 1px solid var(--card-border);
+}
+
+.case-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 999px;
+  background: var(--accent-solid);
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.case-phases strong {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: var(--text-strong);
+}
+
+.case-phases li > div > span {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.case-table-wrap {
+  overflow-x: auto;
+  margin-top: 1.2rem;
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  background: var(--card-surface);
+}
+
+.case-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.case-table th,
+.case-table td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.case-table th {
+  background: var(--media-placeholder);
+  color: var(--text-strong);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.case-table td {
+  color: var(--text-muted);
+}
+
+.case-table tr:last-child th,
+.case-table tr:last-child td {
+  border-bottom: none;
+}
+
+.case-table td:first-child {
+  color: var(--text-strong);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.case-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+.case-gallery-item {
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  background: var(--media-placeholder);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.case-gallery-item:only-child {
+  grid-column: 1 / -1;
+}
+
+.case-gallery-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.case-footnote {
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--card-border);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 860px) {
+  .case-shell {
+    width: min(100% - 1.5rem, 1080px);
+    padding-top: 5.5rem;
+  }
+
+  .case-hero h1 {
+    max-width: none;
+  }
+
+  .case-grid--2,
+  .case-grid--3,
+  .case-grid--split,
+  .case-figures--grid-2,
+  .case-figures--grid-3,
+  .case-gallery {
+    grid-template-columns: 1fr;
+  }
 }

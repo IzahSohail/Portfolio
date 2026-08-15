@@ -1,113 +1,13 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import ProjectCard from "@/components/project-card"
-import ProjectModal from "@/components/project-modal"
 import SiteNav from "@/components/site-nav"
 import TechTicker from "@/components/tech-ticker"
 import Image from "next/image"
+import { PROJECTS } from "@/lib/projects"
 
-interface Project {
-  id: number
-  title: string
-  tagline: string
-  image: string
-  images?: string[]
-  description?: string
-  technologies?: string[]
-  link?: string
-}
-
-const PROJECTS: Project[] = [
-  {
-    id: 1,
-    title: "Falcon Market",
-    tagline: "A student marketplace with seller tools and real-time analytics",
-    image: "/falcon-market-thumbnail.jpg",
-    images: ["/falcon-market-thumbnail.jpg"],
-    description:
-      "A full-stack multi-vendor marketplace built for students to buy, sell, and manage secondhand items. The platform supports secure Auth0-based login, role-based workflows for users, businesses, and admins, bulk CSV/JSON catalog uploads with validation, and a Kafka-powered analytics pipeline for tracking sales activity in real time. Designed to combine core e-commerce flows with scalable data processing and operational reporting.",
-    technologies: ["React", "Node.js", "Express", "PostgreSQL", "Kafka"],
-    link: "https://github.com/IzahSohail/Retail_App",
-  },
-  {
-    id: 2,
-    title: "Math Confidence",
-    tagline: "AI pre-algebra tutor that builds mastery",
-    image: "/math-confidence-thumbnail.jpg",
-    images: ["/math-confidence.jpg", "/math-confidence-detail1.jpg", "/math-confidence-detail2.jpg"],
-    description:
-      "An Interactive Pre-Algebra AI Textbook designed to enhance learners' confidence in mathematics. The platform features an AI tutor that guides users step-by-step through pre-algebra topics, automatically assessing mastery and promoting a growth mindset. Built with Next.js and TypeScript for the frontend, and Tailwind CSS for styling, the application ensures a responsive and user-friendly experience. The AI tutor functionality is powered by OpenAI Assistants, with Supabase for data and auth.",
-    technologies: [
-      "Next.js",
-      "React",
-      "TypeScript",
-      "Tailwind",
-      "OpenAI Assistants",
-      "Supabase",
-    ],
-    link: "https://math-confidence.com",
-  },
-  {
-    id: 3,
-    title: "Euro Votes",
-    tagline: "Political transparency through EU voting data",
-    image: "/Euro-votes-thumbnail.jpg",
-    images: [
-      "/project1.jpg",
-      "/project1-detail1.jpg",
-      "/project1-detail2.jpg",
-      "/project1-detail3.jpg",
-      "/project1-detail4.jpg",
-    ],
-    description:
-      "An interactive data visualization tool that analyzes voting patterns in the European Parliament. The project scrapes legislative roll-call data and MEP information using BeautifulSoup, stores it in PostgreSQL, and presents visual trends via Matplotlib, Plotly, and Pandas. It enables users to explore alignments across countries, parties, and ideologies.",
-    technologies: [
-      "Python",
-      "Django",
-      "PostgreSQL",
-      "JavaScript",
-      "Matplotlib",
-      "Plotly",
-      "Pandas",
-      "BeautifulSoup",
-    ],
-    link: "https://github.com/IzahSohail/Eu-Parliament",
-  },
-  {
-    id: 4,
-    title: "NYC Murals",
-    tagline: "Explore street art across New York City",
-    image: "/nyc-murals-thumbnail.jpg",
-    images: ["/nyc-murals.jpg", "/nyc-murals-detail1.jpg", "/nyc-murals-detail2.jpg"],
-    description:
-      "An interactive web application that showcases murals across New York City, allowing users to explore and learn about various street artworks. Built with Next.js and TypeScript, the project leverages server-side rendering for optimized performance and utilizes Tailwind CSS for responsive and modern styling. The application features dynamic routing to provide detailed information about each mural and integrates map functionalities to display mural locations effectively.",
-    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
-    link: "https://nyc-murals.vercel.app",
-  },
-  {
-    id: 5,
-    title: "PhotoShare",
-    tagline: "Flickr-inspired photo sharing platform",
-    image: "/photoshare-thumbnail.jpg",
-    images: ["/photoshare.jpg"],
-    description:
-      "A Flickr-inspired web app developed for a Database Systems course. Users can register, upload photos, create albums, tag content, like/comment on photos, and receive recommendations. Backend is built using Django and PostgreSQL with ER modeling, indexing strategies, and query optimization. Includes photo search, user management, and content discovery tools.",
-    technologies: ["Django", "PostgreSQL", "Bootstrap", "JavaScript"],
-    link: "https://github.com/IzahSohail/instagram2.0",
-  },
-  {
-    id: 6,
-    title: "Fever Dream",
-    tagline: "Generative art and music visualization",
-    image: "/fever-dream-thumbnail.jpg",
-    images: ["/fever-dream.jpg", "/fever-dream-detail1.jpg", "/fever-dream-detail2.jpg"],
-    description:
-      "An experimental digital experience blending generative art and music visualization. Users interact with dreamlike visuals designed in Adobe Illustrator and brought to life with JavaScript.",
-    technologies: ["Adobe Illustrator", "JavaScript"],
-    link: "https://izahsohail.github.io/feverdream",
-  },
-]
+const HERO_TAGS = ["System Design", "Full-Stack", "AI Engineering", "Test-Driven"]
 
 const ABOUT_PARAGRAPHS = [
   "I've always had a knack for solving problems. Whether it was figuring out how something worked or finding a better way to do it, I've always enjoyed breaking challenges down and finding practical solutions.",
@@ -121,7 +21,6 @@ export default function Portfolio() {
   const projectsSectionRef = useRef<HTMLElement>(null)
   const publicationsSectionRef = useRef<HTMLElement>(null)
   const aboutSectionRef = useRef<HTMLElement>(null)
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
 
   const getMaxScroll = () => {
     const el =
@@ -139,45 +38,6 @@ export default function Portfolio() {
   }, [])
 
   useEffect(() => {
-    if (selectedProject === null) return
-
-    const scrollY = window.scrollY
-    const { documentElement: html, body } = document
-
-    html.style.overflow = "hidden"
-    body.style.overflow = "hidden"
-    body.style.position = "fixed"
-    body.style.top = `-${scrollY}px`
-    body.style.left = "0"
-    body.style.right = "0"
-    body.style.width = "100%"
-
-    const blockBackgroundScroll = (e: Event) => {
-      const target = e.target as Element | null
-      if (target?.closest?.("[data-modal-scroll]")) return
-      e.preventDefault()
-    }
-
-    document.addEventListener("wheel", blockBackgroundScroll, { passive: false })
-    document.addEventListener("touchmove", blockBackgroundScroll, { passive: false })
-
-    return () => {
-      document.removeEventListener("wheel", blockBackgroundScroll)
-      document.removeEventListener("touchmove", blockBackgroundScroll)
-      html.style.overflow = ""
-      body.style.overflow = ""
-      body.style.position = ""
-      body.style.top = ""
-      body.style.left = ""
-      body.style.right = ""
-      body.style.width = ""
-      window.scrollTo(0, scrollY)
-    }
-  }, [selectedProject])
-
-  useEffect(() => {
-    if (selectedProject) return
-
     const enforce = () => {
       const max = getMaxScroll()
       if (window.scrollY > max) window.scrollTo(0, max)
@@ -197,7 +57,7 @@ export default function Portfolio() {
       window.removeEventListener("wheel", onWheel)
       window.removeEventListener("resize", enforce)
     }
-  }, [selectedProject])
+  }, [])
 
   return (
     <main className="page-content">
@@ -209,6 +69,13 @@ export default function Portfolio() {
             <div className="landing-copy">
               <h1 className="landing-title">Izah Sohail</h1>
               <p className="landing-subtitle">AI & Full-Stack Developer</p>
+              <ul className="landing-tags" aria-label="Focus areas">
+                {HERO_TAGS.map((tag) => (
+                  <li key={tag}>
+                    <span className="landing-tag">{tag}</span>
+                  </li>
+                ))}
+              </ul>
               <p className="landing-tagline">
                 I enjoy exploring new tech to turn data into insight & insight into products.
               </p>
@@ -216,7 +83,7 @@ export default function Portfolio() {
 
             <div className="landing-illustration-wrap">
               <Image
-                src="/assets/profile-illustration.svg"
+                src="/about/illustration.svg"
                 alt="Illustration of Izah"
                 width={527}
                 height={529}
@@ -242,9 +109,8 @@ export default function Portfolio() {
               title={project.title}
               tagline={project.tagline}
               image={project.image}
+              slug={project.slug}
               technologies={project.technologies}
-              link={project.link}
-              onClick={() => setSelectedProject(project)}
             />
           ))}
         </div>
@@ -316,7 +182,7 @@ export default function Portfolio() {
 
             <div className="about-photo-frame">
               <Image
-                src="/about-me.jpg"
+                src="/about/portrait.jpg"
                 alt="Portrait of Izah Sohail"
                 width={720}
                 height={900}
@@ -327,8 +193,6 @@ export default function Portfolio() {
           </div>
         </div>
       </section>
-
-      <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
     </main>
   )
 }
